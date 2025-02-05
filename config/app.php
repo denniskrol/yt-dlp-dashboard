@@ -125,24 +125,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Youtube-DL path
+    | YT-DLP path
     |--------------------------------------------------------------------------
     |
-    | Path to Youtube-DL executable
-    | yt-dlp is also supported
+    | Path to YT-DLP executable
     |
     */
-    'youtube-dl_path' => env('YOUTUBE_DL_PATH', 'youtube-dl'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Use YT-DLP
-    |--------------------------------------------------------------------------
-    |
-    | When using yt-dlp executable set to true to use yt-dlp specific options
-    |
-    */
-    'is_yt-dlp' => env('USE_YT_DLP', false),
+    'yt-dlp_path' => env('YT_DLP_PATH', 'yt-dlp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +165,6 @@ return [
     |
     */
     'proxy' => [
-        '*' => env('PROXY', 'http://127.0.0.1:7890'),
+        '*' => env('PROXY'),
     ],
-
 ];

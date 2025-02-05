@@ -2,34 +2,33 @@
 
 namespace App\Jobs;
 
-use Log;
-use Throwable;
 use App\Models\Item;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Str;
+use Throwable;
 
-class DownloadItem implements ShouldQueue {
+class DownloadItem implements ShouldQueue
+{
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 1;
-    public $timeout = 1800;
+    public int $tries = 1;
 
-    protected $item, $status = 0;
+    public int $timeout = 1800;
 
-    public function __construct(Item $item) {
-        $this->item = $item;
+    public function __construct(protected Item $item)
+    {
         $this->item->status = 'queued';
         $this->item->save();
     }
 
-    public function handle() {
+    public function handle(): void
+    {
         $scriptStartTime = microtime(true);
-        if (!file_exists($this->item->path)) {
+
+        if (! file_exists($this->item->path)) {
             $this->item->status = 'error';
             $this->item->error = 'Path doesnt exist';
             $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
@@ -46,7 +45,7 @@ class DownloadItem implements ShouldQueue {
 
         $domain = parse_url($this->item->url, PHP_URL_HOST);
 
-        $command = config('app.youtube-dl_path').' -j "'.$this->item->url.'" -o "';
+        $command = config('app.yt-dlp_path').' -j "'.$this->item->url.'" -o "';
         // Prefix filename with playlist name
         if (($this->item->playlist) && ($this->item->playlist->prefix_playlist_name)) {
             $command .= '['.$this->item->playlist->title.'] ';
@@ -54,12 +53,8 @@ class DownloadItem implements ShouldQueue {
         $command .= '%(title)s-%(id)s.%(ext)s" --no-playlist --no-progress --no-mtime';
         if (isset(config('app.proxy')['*'])) {
             $command .= ' --proxy "'.config('app.proxy')['*'].'"';
-        }
-        else if (isset(config('app.proxy')[$domain])) {
+        } elseif (isset(config('app.proxy')[$domain])) {
             $command .= ' --proxy "'.config('app.proxy')[$domain].'"';
-        }
-        if (config('app.is_yt-dlp')) {
-            //$command .= ' --parse-metadata " :%(automatic_captions)s"';
         }
         $command .= ' 2>&1';
 
@@ -67,48 +62,28 @@ class DownloadItem implements ShouldQueue {
         exec($command, $output, $return);
 
         if ($return != 0) {
-            if ((isset($output[0])) && (strpos($output[0], 'This video has been removed by the user') !== false)) {
-                $this->item->status = 'error';
+            $this->item->status = 'error';
+            if ((isset($output[0])) && (str_contains($output[0], 'This video has been removed by the user'))) {
                 $this->item->error = 'This video has been removed by the user';
-                $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
-                $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
-                $this->item->save();
-            }
-            elseif ((isset($output[0])) && (strpos($output[0], 'This video is private') !== false)) {
-                $this->item->status = 'error';
+            } elseif ((isset($output[0])) && (str_contains($output[0], 'This video is private'))) {
                 $this->item->error = 'This video is private';
-                $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
-                $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
-                $this->item->save();
-            }
-            elseif ((isset($output[0])) && (strpos($output[0], 'This video has been disabled') !== false)) {
-                $this->item->status = 'error';
+            } elseif ((isset($output[0])) && (str_contains($output[0], 'This video has been disabled'))) {
                 $this->item->error = 'This video has been disabled';
-                $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
-                $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
-                $this->item->save();
-            }
-            elseif ((isset($output[2])) && (strpos($output[2], 'This video may be inappropriate for some users') !== false)) {
-                $this->item->status = 'error';
+            } elseif ((isset($output[2])) && (str_contains($output[2], 'This video may be inappropriate for some users'))) {
                 $this->item->error = 'This video may be inappropriate for some users.';
-                $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
-                $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
-                $this->item->save();
-            }
-            else {
-                $this->item->status = 'error';
+            } else {
                 $this->item->error = $output[0] ?? 'Unknown error';
-                $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
-                $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
-                $this->item->save();
             }
+            $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
+            $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
+            $this->item->save();
 
             return;
         }
 
         $json = json_decode(end($output));
 
-        if (!$json) {
+        if (! $json) {
             $this->item->status = 'error';
             $this->item->error = 'Failed to get media information';
             $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
@@ -135,8 +110,7 @@ class DownloadItem implements ShouldQueue {
         $command .= '%(title)s-%(id)s.%(ext)s" --no-playlist --no-progress --no-mtime';
         if (isset(config('app.proxy')['*'])) {
             $command .= ' --proxy "'.config('app.proxy')['*'].'"';
-        }
-        else if (isset(config('app.proxy')[$domain])) {
+        } elseif (isset(config('app.proxy')[$domain])) {
             $command .= ' --proxy "'.config('app.proxy')[$domain].'"';
         }
         if ($this->item->format == 'mp4') {
@@ -144,8 +118,7 @@ class DownloadItem implements ShouldQueue {
                 $command .= ' -f "bestvideo[height<='.$this->item->quality.']+bestaudio"';
             }
             $command .= ' --merge-output-format '.$this->item->format;
-        }
-        else if ($this->item->format == 'mp3') {
+        } elseif ($this->item->format == 'mp3') {
             $command .= ' --extract-audio --audio-format mp3';
             if ($this->item->quality != 'best') {
                 $command .= ' --audio-quality '.$this->item->quality.'K';
@@ -186,8 +159,7 @@ class DownloadItem implements ShouldQueue {
             foreach ($json->streams as $stream) {
                 if ($stream->codec_type == 'audio') {
                     $audioInfo = round($stream->bit_rate / 1024).'kb/s @ '.round(($stream->sample_rate / 1000), 1).'kHz ('.$stream->channels.' channels)';
-                }
-                elseif ($stream->codec_type == 'video') {
+                } elseif ($stream->codec_type == 'video') {
                     $frameRate = explode('/', $stream->avg_frame_rate);
                     $fps = round(($frameRate[0] / $frameRate[1]), 3);
                     $videoInfo = $stream->width.'x'.$stream->height.' @ '.$fps.'fps';
@@ -201,7 +173,8 @@ class DownloadItem implements ShouldQueue {
         $this->item->save();
     }
 
-    public function failed(Throwable $exception) {
+    public function failed(Throwable $exception): void
+    {
         $this->item->status = 'error';
         $this->item->error = $exception->getMessage();
         $this->item->save();

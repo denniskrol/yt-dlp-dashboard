@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Playlist extends Model {
+class Playlist extends Model
+{
     use HasFactory;
 
     protected $appends = ['statusClass', 'statusText'];
-    protected $dates = ['checked_at'];
+
+    protected $casts = ['checked_at' => 'datetime'];
+
     protected $guarded = [];
 
-    public function getStatusClassAttribute() {
+    public function getStatusClassAttribute(): ?string
+    {
         $classes = [
             'not_processed' => 'table-warning',
             'queued' => 'table-light',
@@ -24,7 +29,8 @@ class Playlist extends Model {
         return $classes[$this->status] ?? null;
     }
 
-    public function getStatusTextAttribute() {
+    public function getStatusTextAttribute(): string
+    {
         $replace = [
             'not_processed' => 'Not Processed',
             'queued' => 'Queued',
@@ -36,8 +42,8 @@ class Playlist extends Model {
         return str_replace(array_keys($replace), array_values($replace), $this->status);
     }
 
-    public function items() {
+    public function items(): HasMany
+    {
         return $this->hasMany(Item::class);
     }
-
 }
