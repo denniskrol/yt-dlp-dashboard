@@ -151,7 +151,7 @@ return [
     | Path where media is downloaded to
     |
     */
-    'media_download_path' => env('DEFAULT_DOWNLOAD_PATH', 'storage\media\\'),
+    'media_download_path' => env('DEFAULT_DOWNLOAD_PATH', storage_path('media')),
 
     /*
     |--------------------------------------------------------------------------

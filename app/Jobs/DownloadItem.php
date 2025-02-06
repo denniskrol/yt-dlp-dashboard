@@ -86,7 +86,7 @@ class DownloadItem implements ShouldQueue
 
         $json = json_decode(end($output));
 
-        if (! $json) {
+        if (!$json) {
             $this->item->status = 'error';
             $this->item->error = 'Failed to get media information';
             $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
@@ -105,7 +105,7 @@ class DownloadItem implements ShouldQueue
         $this->item->status = 'downloading';
         $this->item->save();
 
-        $command = config('app.youtube-dl_path').' "'.$this->item->url.'" -o "'.$this->item->path;
+        $command = config('app.yt-dlp_path').' "'.$this->item->url.'" -o "'.$this->item->path;
         // Prefix filename with playlist name
         if (($this->item->playlist) && ($this->item->playlist->prefix_playlist_name)) {
             $command .= '['.$this->item->playlist->title.'] ';

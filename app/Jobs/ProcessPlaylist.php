@@ -39,7 +39,7 @@ class ProcessPlaylist implements ShouldQueue
 
         $domain = parse_url($this->playlist->url, PHP_URL_HOST);
 
-        $command = config('app.youtube-dl_path').' -J "'.$this->playlist->url.'" --yes-playlist --flat-playlist --ignore-errors';
+        $command = config('app.yt-dlp_path').' -J "'.$this->playlist->url.'" --yes-playlist --flat-playlist --ignore-errors';
         if (isset(config('app.proxy')['*'])) {
             $command .= ' --proxy "'.config('app.proxy')['*'].'"';
         } elseif (isset(config('app.proxy')[$domain])) {
@@ -99,7 +99,7 @@ class ProcessPlaylist implements ShouldQueue
                 'playlist_id' => $this->playlist->id,
             ]);
 
-            DownloadItem::dispatch($item)->onQueue(config('queue.connections.'.config('queue.default').'.queue').'-items');
+            DownloadItem::dispatch($item);
         }
 
         $this->playlist->status = 'processed';

@@ -29,7 +29,7 @@ class QueuePlaylists implements ShouldQueue
         $playlists = Playlist::where('auto_update', true)->get();
 
         foreach ($playlists as $playlist) {
-            ProcessPlaylist::dispatch($playlist)->onQueue(config('queue.connections.'.config('queue.default').'.queue').'-playlists');
+            ProcessPlaylist::dispatch($playlist);
         }
     }
 }
