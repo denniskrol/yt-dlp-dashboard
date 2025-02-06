@@ -1,0 +1,11 @@
+{
+    "preset": "psr12",
+    "lineEnding": "\r\n",
+    "rules": {
+        "line_ending": false,
+        "ordered_imports": {
+            "sort_algorithm": "alpha"
+        },
+        "not_operator_with_space": false
+    }
+}
