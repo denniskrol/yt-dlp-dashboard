@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $appends = ['statusClass', 'statusText'];
 
