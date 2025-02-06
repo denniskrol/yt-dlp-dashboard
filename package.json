@@ -13,5 +13,8 @@
         "postcss": "^8.4.47",
         "tailwindcss": "^4.0.0",
         "vite": "^6.0.11"
+    },
+    "dependencies": {
+        "toastr": "^2.1.4"
     }
 }
