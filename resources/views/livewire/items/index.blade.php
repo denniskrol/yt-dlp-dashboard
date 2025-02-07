@@ -69,7 +69,7 @@
                 </thead>
                 <tbody>
                 @foreach ($items as $item)
-                    <livewire:item-row :$item :key="$item->id.'.'.$item->updated_at" />
+                    <livewire:items.item-row :$item :key="$item->id.'.'.$item->updated_at" />
                 @endforeach
                 </tbody>
             </table>

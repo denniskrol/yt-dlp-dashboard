@@ -31,7 +31,7 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <x-nav-link :href="route('items')" :active="(request()->route()->getName() == 'items')" wire:navigate.hover>
+                                <x-nav-link :href="route('items')" :active="str_starts_with(request()->route()->getName(), 'item')" wire:navigate.hover>
                                     {{ __('Downloads') }}
                                 </x-nav-link>
                             </div>
@@ -52,7 +52,7 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <x-responsive-nav-link :href="route('items')" :active="request()->routeIs('items')" wire:navigate>
+                        <x-responsive-nav-link :href="route('items')" :active="str_starts_with(request()->route()->getName(), 'item')" wire:navigate>
                             {{ __('Downloads') }}
                         </x-responsive-nav-link>
                     </div>

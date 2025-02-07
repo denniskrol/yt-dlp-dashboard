@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Items;
 
 use App\Jobs\DownloadItem;
 use App\Models\Item;
@@ -76,7 +76,7 @@ class Items extends Component
 
     public function render(): View
     {
-        return view('livewire.items')
+        return view('livewire.items.index')
             ->with([
                 'items' => Item::latest()->paginate(50)
             ]);

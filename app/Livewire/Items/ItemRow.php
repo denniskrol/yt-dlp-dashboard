@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Items;
 
 use App\Jobs\DownloadItem;
 use App\Models\Item;
@@ -11,21 +11,20 @@ class ItemRow extends Component
 {
     public Item $item;
 
-    public function delete($id): void
+    public function delete(): void
     {
-        Item::where('id', $id)->delete();
+        $this->item->delete();
         $this->dispatch('toast', type: 'success', message: 'Item deleted');
     }
 
-    public function redownload($id): void
+    public function redownload(): void
     {
-        $item = Item::where('id', $id)->firstOrFail();
-        DownloadItem::dispatch($item);
+        DownloadItem::dispatch($this->item);
         $this->dispatch('toast', type: 'success', message: 'Redownloading item...');
     }
 
     public function render(): View
     {
-        return view('components.item-row');
+        return view('livewire.items.item-row');
     }
 }
