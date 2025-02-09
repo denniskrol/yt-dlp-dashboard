@@ -25,7 +25,7 @@ class Items extends Component
         'quality' => 'required|string',
         'urls' => 'required|string|min:6',
     ];
-    public string $selectedPreset = 'custom';
+    public string $selectedPreset = '';
     public string $urls;
 
     public function create(): void
@@ -64,14 +64,7 @@ class Items extends Component
         $this->path = config('app.media_download_path');
 
         $this->presets = Preset::orderBy('name')->get();
-        $preset = $this->presets->first();
-
-        if ($preset) {
-            $this->format = $preset->format;
-            $this->quality = $preset->quality;
-            $this->path = $preset->path;
-            $this->selectedPreset = $preset->id;
-        }
+        $this->selectedPreset = config('app.default_preset');
     }
 
     public function render(): View

@@ -19,11 +19,11 @@ class Playlist extends Model
     public function getStatusClassAttribute(): ?string
     {
         $classes = [
-            'not_processed' => 'table-warning',
-            'queued' => 'table-light',
-            'getting_info' => 'table-info',
-            'downloading' => 'table-primary',
-            'error' => 'table-danger',
+            'not_processed' => 'bg-orange-500',
+            'queued' => 'bg-gray-400',
+            'getting_info' => 'bg-cyan-800',
+            'downloading' => 'bg-sky-800',
+            'error' => 'bg-red-800',
         ];
 
         return $classes[$this->status] ?? null;
@@ -44,6 +44,6 @@ class Playlist extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(Item::class)->latest();
     }
 }

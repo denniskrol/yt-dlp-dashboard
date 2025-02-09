@@ -167,4 +167,14 @@ return [
     'proxy' => [
         '*' => env('PROXY'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default selected preset
+    |--------------------------------------------------------------------------
+    |
+    | Preset selected by default on download and playlist pages
+    |
+    */
+    'default_preset' => env('DEFAULT_PRESET', 'custom'),
 ];

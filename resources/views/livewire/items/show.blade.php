@@ -45,7 +45,7 @@
                         Playlist
                     </div>
                     <div class="basis-10/12">
-                        {{ $item->playlist->title ?? $item->playlist->url }}
+                        <a href="/playlists/{{ $item->playlist->id }}" wire:navigate.hover>{{ $item->playlist->title ?? $item->playlist->url }}</a>
                     </div>
                 </div>
             @endif

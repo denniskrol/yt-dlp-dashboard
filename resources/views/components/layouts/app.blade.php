@@ -35,6 +35,11 @@
                                     {{ __('Downloads') }}
                                 </x-nav-link>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <x-nav-link :href="route('playlists')" :active="str_starts_with(request()->route()->getName(), 'playlist')" wire:navigate.hover>
+                                    {{ __('Playlists') }}
+                                </x-nav-link>
+                            </div>
                         </div>
 
                         <!-- Hamburger -->
@@ -54,6 +59,11 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <x-responsive-nav-link :href="route('items')" :active="str_starts_with(request()->route()->getName(), 'item')" wire:navigate>
                             {{ __('Downloads') }}
+                        </x-responsive-nav-link>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <x-responsive-nav-link :href="route('playlists')" :active="str_starts_with(request()->route()->getName(), 'playlist')" wire:navigate>
+                            {{ __('Playlists') }}
                         </x-responsive-nav-link>
                     </div>
                 </div>
