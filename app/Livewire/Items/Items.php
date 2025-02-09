@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithPagination;
 
 class Items extends Component
@@ -28,7 +29,7 @@ class Items extends Component
     public string $selectedPreset = '';
     public string $urls;
 
-    public function create(): void
+    public function create(): Redirector
     {
         if (mb_substr($this->path, -1) != DIRECTORY_SEPARATOR) {
             $this->path .= DIRECTORY_SEPARATOR;
@@ -57,6 +58,8 @@ class Items extends Component
 
         $this->reset(['urls']);
         $this->dispatch('toast', type: 'success', message: $itemsAdded.' '.Str::plural('item', $itemsAdded).' added');
+
+        return redirect()->to('/');
     }
 
     public function mount(): void

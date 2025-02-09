@@ -40,6 +40,11 @@
                                     {{ __('Playlists') }}
                                 </x-nav-link>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <x-nav-link :href="route('presets')" :active="str_starts_with(request()->route()->getName(), 'preset')" wire:navigate.hover>
+                                    {{ __('Presets') }}
+                                </x-nav-link>
+                            </div>
                         </div>
 
                         <!-- Hamburger -->
@@ -64,6 +69,11 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <x-responsive-nav-link :href="route('playlists')" :active="str_starts_with(request()->route()->getName(), 'playlist')" wire:navigate>
                             {{ __('Playlists') }}
+                        </x-responsive-nav-link>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <x-responsive-nav-link :href="route('presets')" :active="str_starts_with(request()->route()->getName(), 'preset')" wire:navigate>
+                            {{ __('Presets') }}
                         </x-responsive-nav-link>
                     </div>
                 </div>

@@ -8,17 +8,20 @@ use App\Models\Preset;
 use App\Livewire\Forms\PlaylistForm;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class Playlists extends Component
 {
     public PlaylistForm $form;
 
-    public function create(): void
+    public function create(): Redirector
     {
         $this->form->store();
 
         ProcessPlaylist::dispatch($playlist);
         $this->dispatch('toast', type: 'success', message: 'Playlist added');
+
+        return redirect()->to('/playlists');
     }
 
     public function mount(): void

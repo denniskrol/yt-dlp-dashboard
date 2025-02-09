@@ -27,7 +27,7 @@ class ShowPlaylist extends Component
 
     public function render(): View
     {
-        return view('livewire.playlists.show-playlist');
+        return view('livewire.playlists.show');
     }
 
     public function update(): void
