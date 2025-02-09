@@ -83,8 +83,7 @@ class Items extends Component
         if ($value == 'custom') {
             $this->reset(['format', 'quality']);
             $this->path = config('app.media_download_path');
-        }
-        else {
+        } else {
             $preset = $this->presets->where('id', $value)->first();
             $this->format = $preset->format;
             $this->quality = $preset->quality;

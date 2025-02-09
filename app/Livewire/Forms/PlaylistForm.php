@@ -69,8 +69,7 @@ class PlaylistForm extends Form
             $this->reset(['format', 'quality']);
             $this->quality = 'best';
             $this->path = config('app.media_download_path');
-        }
-        else {
+        } else {
             $preset = Preset::findOrFail($this->selectedPreset);
             $this->format = $preset->format;
             $this->path = $preset->path;
