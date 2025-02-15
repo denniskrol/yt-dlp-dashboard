@@ -33,6 +33,7 @@ class PlaylistForm extends Form
         $this->path = config('app.media_download_path');
         $this->presets = Preset::orderBy('name')->get();
         $this->selectedPreset = config('app.default_preset');
+        $this->updatedSelectedPreset($this->selectedPreset);
     }
 
     public function setPlaylist(Playlist $playlist): void

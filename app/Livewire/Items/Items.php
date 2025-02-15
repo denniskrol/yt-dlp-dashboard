@@ -68,6 +68,7 @@ class Items extends Component
 
         $this->presets = Preset::orderBy('name')->get();
         $this->selectedPreset = config('app.default_preset');
+        $this->updatedSelectedPreset($this->selectedPreset);
     }
 
     public function render(): View
