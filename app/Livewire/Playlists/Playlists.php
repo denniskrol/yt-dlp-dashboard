@@ -17,7 +17,7 @@ class Playlists extends Component
     {
         $this->form->store();
 
-        ProcessPlaylist::dispatch($playlist);
+        ProcessPlaylist::dispatch($this->form->playlist);
         $this->dispatch('toast', type: 'success', message: 'Playlist added');
 
         return redirect()->to('/playlists');
