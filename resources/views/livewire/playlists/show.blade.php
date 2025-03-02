@@ -76,7 +76,9 @@
                             Checked
                         </div>
                         <div class="basis-8/12">
-                            {{ $playlist->checked_at->diffForHumans() }}
+                            @if ($playlist->checked_at)
+                                {{ $playlist->checked_at->diffForHumans() }}
+                            @endif
                         </div>
                     </div>
                     <div class="flex flex-row pb-2">
