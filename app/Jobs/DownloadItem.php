@@ -101,7 +101,6 @@ class DownloadItem implements ShouldQueue
         $this->item->extractor = $json->extractor;
         $this->item->title = $json->title;
         $this->item->duration = $json->duration ?? null;
-
         $this->item->status = 'downloading';
         $this->item->save();
 
@@ -129,6 +128,7 @@ class DownloadItem implements ShouldQueue
         }
         $command .= ' 2>&1';
         $this->item->command = $command;
+        $this->item->save();
         $output = null;
         exec($command, $output, $return);
 
@@ -145,7 +145,6 @@ class DownloadItem implements ShouldQueue
         // Make sure we save the correct extension, even after FFMpeg conversion
         $this->item->filename = str_replace(pathinfo($this->item->path.$this->item->filename, PATHINFO_EXTENSION), $this->item->format, $this->item->filename);
         $this->item->size = filesize($this->item->path.$this->item->filename);
-        $this->item->status = 'done';
         $this->item->output = iconv('UTF-8', 'UTF-8//IGNORE', implode(PHP_EOL, $output));
         $this->item->save();
 
@@ -173,6 +172,7 @@ class DownloadItem implements ShouldQueue
         $this->item->audio_info = $audioInfo;
         $this->item->video_info = $videoInfo;
         $this->item->processing_duration = (round((microtime(true) - $scriptStartTime), 2));
+        $this->item->status = 'done';
         $this->item->save();
     }
 
