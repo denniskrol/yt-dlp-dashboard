@@ -11,7 +11,7 @@
     "require": {
         "php": "^8.4",
         "ext-iconv": "*",
-        "laravel/framework": "^11.31",
+        "laravel/framework": "^12.39",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "pharaonic/laravel-readable": "^1.0"
