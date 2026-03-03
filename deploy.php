@@ -6,7 +6,6 @@ require 'recipe/laravel.php';
 
 // Configuration
 set('application', 'YT-DLP Dashboard');
-set('ssh_type', 'native');
 set('ssh_multiplexing', true);
 set('default_timeout', 6000);
 set('writable_mode', 'chmod');
