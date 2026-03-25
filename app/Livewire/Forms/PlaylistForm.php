@@ -49,12 +49,14 @@ class PlaylistForm extends Form
         $this->url = $playlist->url;
     }
 
-    public function store(): void
+    public function store(): Playlist
     {
         $this->validate();
 
-        Playlist::create($this->except(['playlist', 'presets', 'selectedPreset']));
+        $playlist = Playlist::create($this->except(['playlist', 'presets', 'selectedPreset']));
         $this->reset(['url', 'title']);
+
+        return $playlist;
     }
 
     public function update(): void

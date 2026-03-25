@@ -15,9 +15,9 @@ class Playlists extends Component
 
     public function create(): Redirector
     {
-        $this->form->store();
+        $playlist = $this->form->store();
 
-        ProcessPlaylist::dispatch($this->form->playlist);
+        ProcessPlaylist::dispatch($playlist);
         $this->dispatch('toast', type: 'success', message: 'Playlist added');
 
         return redirect()->to('/playlists');
