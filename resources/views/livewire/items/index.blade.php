@@ -51,6 +51,11 @@
                     <x-text-input name="path" wire:model="path" wire:loading.class="opacity-50 border-yellow" class="w-full placeholder:italic placeholder:text-slate-400"/>
                     <x-input-error class="mt-2" :messages="$errors->get('path')" />
                 </div>
+                <div class="mt-2">
+                    <x-input-label for="set_modified_date" :value="__('Set modified date')" />
+                    <x-check-input name="set_modified_date" wire:model="set_modified_date" wire:loading.class="opacity-50 border-yellow" class="placeholder:italic placeholder:text-slate-400"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('set_modified_date')" />
+                </div>
             @endif
             <div class="pt-2">
                 <x-primary-button wire:click="create()" :value="__('Add')"/>

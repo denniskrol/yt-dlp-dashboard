@@ -123,6 +123,9 @@ class DownloadItem implements ShouldQueue
         if (str_contains($domain, 'pornhub.com')) {
             $command .= ' --impersonate chrome --no-cookies';
         }
+        if ($this->set_modified_date) {
+            $command .= ' --use-postprocessor FixupMtime:mtime_key=upload_date';
+        }
         if ($this->item->format == 'mp4') {
             if ($this->item->quality != 'best') {
                 $command .= ' -f "bestvideo[height<='.$this->item->quality.']+bestaudio"';
