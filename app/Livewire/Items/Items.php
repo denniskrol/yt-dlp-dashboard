@@ -27,6 +27,7 @@ class Items extends Component
         'urls' => 'required|string|min:6',
     ];
     public string $selectedPreset = '';
+    public bool $set_modified_date = false;
     public string $urls;
 
     public function create(): Redirector
@@ -47,6 +48,7 @@ class Items extends Component
             $item = Item::create([
                 'format' => $this->format,
                 'path' => $this->path,
+                'set_modified_date' => $this->set_modified_date,
                 'quality' => $this->quality,
                 'url' => $url,
             ]);
@@ -84,6 +86,7 @@ class Items extends Component
         if ($value == 'custom') {
             $this->reset(['format', 'quality']);
             $this->path = config('app.media_download_path');
+            $this->set_modified_date = false;
         } else {
             $preset = $this->presets->where('id', $value)->first();
             $this->format = $preset->format;

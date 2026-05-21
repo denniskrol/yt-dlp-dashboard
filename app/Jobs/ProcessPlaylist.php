@@ -98,6 +98,7 @@ class ProcessPlaylist implements ShouldQueue
             $item = Item::create([
                 'format' => $this->playlist->format,
                 'path' => $this->playlist->path,
+                'set_modified_date' => $this->playlist->set_modified_date,
                 'quality' => $this->playlist->quality,
                 'url' => $entry->url,
                 'playlist_id' => $this->playlist->id,

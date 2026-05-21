@@ -58,15 +58,20 @@
                 </div>
             @endif
             <div class="flex flex-row pb-2">
-                <div class="basis-6/12 mr-2">
-                    <x-input-label for="auto_update" :value="__('Auto Update')" />
+                <div class="basis-4/12 mr-2">
+                    <x-input-label for="auto_update" :value="__('Auto update')" />
                     <x-check-input name="auto_update" wire:model="form.auto_update" wire:loading.class="opacity-50 border-yellow" class="placeholder:italic placeholder:text-slate-400"/>
                     <x-input-error class="mt-2" :messages="$errors->get('form.auto_update')" />
                 </div>
-                <div class="basis-6/12">
+                <div class="basis-4/12">
                     <x-input-label for="prefix_playlist_name" :value="__('Prefix filename with playlist name')" />
                     <x-check-input name="prefix_playlist_name" wire:model="form.prefix_playlist_name" wire:loading.class="opacity-50 border-yellow" class="placeholder:italic placeholder:text-slate-400"/>
                     <x-input-error class="mt-2" :messages="$errors->get('form.prefix_playlist_name')" />
+                </div>
+                <div class="basis-4/12">
+                    <x-input-label for="set_modified_date" :value="__('Set modified date')" />
+                    <x-check-input name="set_modified_date" wire:model="form.set_modified_date" wire:loading.class="opacity-50 border-yellow" class="placeholder:italic placeholder:text-slate-400"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('form.set_modified_date')" />
                 </div>
             </div>
             <div class="pt-2">

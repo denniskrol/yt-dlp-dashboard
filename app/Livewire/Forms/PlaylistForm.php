@@ -23,6 +23,8 @@ class PlaylistForm extends Form
     #[Validate('required|string')]
     public string $quality = 'best';
     public string $selectedPreset = '';
+    #[Validate('required|boolean')]
+    public bool $set_modified_date = false;
     #[Validate('required|string')]
     public string $title = '';
     #[Validate('required|string|min:6')]
@@ -45,6 +47,7 @@ class PlaylistForm extends Form
         $this->path = $playlist->path;
         $this->prefix_playlist_name = $playlist->prefix_playlist_name;
         $this->quality = $playlist->quality;
+        $this->set_modified_date = $playlist->set_modified_date;
         $this->title = $playlist->title;
         $this->url = $playlist->url;
     }
