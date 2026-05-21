@@ -45,6 +45,10 @@ class ProcessPlaylist implements ShouldQueue
         } elseif (isset(config('app.proxy')[$domain])) {
             $command .= ' --proxy "'.config('app.proxy')[$domain].'"';
         }
+        // https://github.com/yt-dlp/yt-dlp/issues/16729
+        if (str_contains($domain, 'pornhub.com')) {
+            $command .= ' --impersonate chrome --no-cookies';
+        }
         $command .= ' 2>&1';
 
         $output = null;

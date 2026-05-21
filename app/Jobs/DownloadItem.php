@@ -53,11 +53,15 @@ class DownloadItem implements ShouldQueue
         if (($this->item->playlist) && ($this->item->playlist->prefix_playlist_name)) {
             $command .= '['.$this->item->playlist->title.'] ';
         }
-        $command .= '%(title)s-%(id)s.%(ext)s" --no-playlist --no-progress --no-mtime';
+        $command .= '%(title)s-%(id)s.%(ext)s" --no-playlist --no-progress';
         if (isset(config('app.proxy')['*'])) {
             $command .= ' --proxy "'.config('app.proxy')['*'].'"';
         } elseif (isset(config('app.proxy')[$domain])) {
             $command .= ' --proxy "'.config('app.proxy')[$domain].'"';
+        }
+        // https://github.com/yt-dlp/yt-dlp/issues/16729
+        if (str_contains($domain, 'pornhub.com')) {
+            $command .= ' --impersonate chrome --no-cookies';
         }
         $command .= ' 2>&1';
 
@@ -114,6 +118,10 @@ class DownloadItem implements ShouldQueue
             $command .= ' --proxy "'.config('app.proxy')['*'].'"';
         } elseif (isset(config('app.proxy')[$domain])) {
             $command .= ' --proxy "'.config('app.proxy')[$domain].'"';
+        }
+        // https://github.com/yt-dlp/yt-dlp/issues/16729
+        if (str_contains($domain, 'pornhub.com')) {
+            $command .= ' --impersonate chrome --no-cookies';
         }
         if ($this->item->format == 'mp4') {
             if ($this->item->quality != 'best') {
