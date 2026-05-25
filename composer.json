@@ -12,8 +12,8 @@
         "php": "^8.4",
         "ext-iconv": "*",
         "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.5",
+        "laravel/tinker": "^3.0",
+        "livewire/livewire": "^4.3",
         "pharaonic/laravel-readable": "^1.0"
     },
     "require-dev": {
