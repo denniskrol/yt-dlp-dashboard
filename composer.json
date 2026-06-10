@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.4",
         "ext-iconv": "*",
+        "hedii/laravel-gelf-logger": "^9.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
